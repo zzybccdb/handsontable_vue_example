@@ -9,7 +9,7 @@ import * as moment from 'moment'
 const api_port = process.env.VUE_APP_APIPORT || 5000
 console.log(api_port,process.env)
 Vue.prototype.$d3 = d3
-Vue.prototype.$api = `http://xxx:${api_port}/api/v1`
+Vue.prototype.$api = `http://140.113.210.9:${api_port}/api/v1`
 Vue.prototype.$axios = axios
 Vue.prototype.$moment = moment
 // Vue.prototype.$router = router

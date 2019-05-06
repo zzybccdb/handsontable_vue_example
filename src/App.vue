@@ -318,7 +318,7 @@ export default{
             }).catch(error => {
                 hot_table.deleteCol(newcol)
                 vm.errorMessage('Operation Error, May be Column have 0')
-                console.log(error)
+                console.error(error)
             })            
         },
         //錯誤提示

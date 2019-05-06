@@ -74,8 +74,10 @@ export default {
                     vm.table_render_row = column
                     let c = "rgb(255,255,255)"
                     if(vm.heat && column!==0){
-                        let scale = vm.color_scale[column-1]
-                        c = scale(value)
+                        if( column-1 in Object.keys(vm.color_scale)){
+                            let scale = vm.color_scale[column-1]
+                            c = scale(value)
+                        }
                     }
                     TD.style.backgroundColor = c
                 },
