@@ -54,52 +54,6 @@ export default {
                                 vm.globalSort(vm.selectedCol[0])
                             }
                         },
-                        // 'insertNewColAdd':{
-                        //     name:"Add a new Column by selected Columns (addition)",
-                        //     callback:() => {
-                        //         let vm = hotInstance.root
-                        //         let params = {
-                        //             columns:vm.selectedCol,
-                        //             op:'add'
-                        //         }
-                        //         vm.excuteOpt(params)
-                        //     }       
-                        // },
-                        // 'insertNewColSub':{
-                        //     name:"Add a new Column by selected Columns (Subtraction)",
-                        //     callback:() => {
-                        //         let vm = hotInstance.root
-                        //         let params = {
-                        //             columns:vm.selectedCol,
-                        //             op:'sub'
-                        //         }
-                        //         vm.excuteOpt(params)
-                        //     }                       
-                        // },
-                        // 'insertNewColMul':{
-                        //     name:"Add a new Column by selected Columns (multiplication)",
-                        //     callback:() => {
-                        //         let vm = hotInstance.root
-                        //         let params = {
-                        //             columns:vm.selectedCol,
-                        //             op:'mult'
-                        //         }
-                        //         vm.excuteOpt(params)        
-                        //     }                         
-                        // },
-
-                        // 'insertNewColDiv':{
-                        //     // 在name 後插入<hr/>既可以在contextmenu中出現水平分割線
-                        //     name:"Add a new Column by selected Columns (Division)<hr/>",
-                        //       callback:() => {
-                        //         let vm = hotInstance.root
-                        //         let params = {
-                        //             columns:vm.selectedCol,
-                        //             op:'div'
-                        //         }
-                        //         vm.excuteOpt(params)
-                        //     }       
-                        // },
                         'dropCol':{
                             name:'Drop selected Columns',
                             callback:() => {
