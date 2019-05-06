@@ -9,10 +9,13 @@
 - licenseKey="non-commercial-and-evaluation" 将其放在<hot-table>中即可,或者放置在 settings 中
 ## 实现功能
 - 通过修改 main.js 中的 Vue.prototype.$api，得到后端的资料，将资料呈现在网页上
-- 给定公式，让 SQL 执行，并将结果由前端呈现（需要后端程式码）
-- 实现了资料由表格到热力图的切换
-- 修改了右键菜单，可以直接由右键选单执行 SQL 的排序（handsontable 的局部排序代码有在 code 中）
-- 具体代码详细解析在都在 code 的备注中。
+- 实现了分页切换的操作，单页呈现33笔资料
+- 使用者可以输入公式，通过解析后，由后端 SQL 执行，并将结果由前端呈现（需要后端程式码），公式可直接 enter 执行
+- 实现了资料由表格到热力图的切换（通过公式边上的button）
+- 修改了右键菜单（包含）：
+    - sort: 由右键选单点选执行 SQL 端的排序，并将结果及时呈现到前端（handsontable 的局部排序代码也有在 code 中）
+    - delete: 由右键选单点选执行删除栏位的操作，直接反应到 SQL 端，并将结果及时呈现到前端
+- 代码说明均在都在 code 的备注中。
 
 ## Project setup
 ```
@@ -24,6 +27,13 @@ npm install
 npm run serve
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+##　结果截图
+![](https://i.imgur.com/tYc7sAL.png)
 
+![](https://i.imgur.com/f3qxmy9.png)
+
+![](https://i.imgur.com/WDzNJNM.png)
+
+![](https://i.imgur.com/p2MMjBM.png)
+
+![](https://i.imgur.com/lBVDYu0.png)
