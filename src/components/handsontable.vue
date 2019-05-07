@@ -55,7 +55,7 @@ export default {
                             }
                         },
                         'dropCol':{
-                            name:'Drop selected Columns',
+                            name:'Delete selected Columns',
                             callback:() => {
                                 let vm = hotInstance.root
                                 vm.deleteCol(vm.selectedCol[0])

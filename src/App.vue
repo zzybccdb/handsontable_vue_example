@@ -223,6 +223,11 @@ export default{
             // 每次修改page 這樣就會呼叫到同時綁定的pageChange（）
             if(vm.change_interval){
                 vm.change_interval = false
+                // 这里需要注意，vm.page 触发 pageChange 当且仅当page发生改变的时候
+                // 这个改变是 == 的，所以需要是实质的改变。
+                if(vm.page === 1){  
+                    vm.pageChange()
+                }
                 vm.page = 1
             }
             else{
