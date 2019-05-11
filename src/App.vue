@@ -27,7 +27,7 @@
                     </v-flex>
                 </v-layout>
                 <v-layout style='overflow:hidden' row>
-                    <v-flex lg11 fluid fill-height>
+                    <v-flex lg8 fluid fill-height>
                         <!-- 利用 v-on:key-up.enter 執行enter後的事件 -->
                         <v-text-field
                             v-model="formula"
@@ -43,6 +43,10 @@
                     <v-btn style="transform:translateY(15px)" fab small flat color='blue'>
                         <v-icon v-model='heat_map' @click="heatMap()">info</v-icon>    
                     </v-btn>
+                    <!-- 色碼条 -->
+                    <v-flex>
+                        <canvas ref='color_line' width=256px height=40px style="transform:translateY(16px);display:inline"></canvas>
+                    </v-flex>
                 </v-layout> 
             </v-flex>           
             <v-flex lg11 class="card" style='overflow:hidden'> 
@@ -60,8 +64,11 @@
                     <v-icon @click='nextPage()'>keyboard_arrow_right</v-icon>
                     </v-btn>
                     <v-flex lg1>
-                        <v-select ref='current_page' style='padding-left:50px;width:50px;height:30px' 
+                        <!-- <v-select ref='current_page' style='padding-left:50px;width:50px;height:30px' 
                         v-model='page' :items='items' @change='pageChange()'>
+                        </v-select> -->
+                        <v-select ref='fake' style='padding-left:50px;width:50px;height:30px' 
+                        v-model='fake' :items='items' @change='test()'>
                         </v-select>
                     </v-flex>
                     <v-flex lg1>
@@ -105,6 +112,7 @@ export default{
             ],
             alert:false,
             heat_map:false,
+            fake:1,
         }
     },
     //
@@ -123,14 +131,58 @@ export default{
         vm.order = 'ASC'
         vm.reorder = 'DESC'
         vm.change_interval = false
+        vm.color_stack = []
     },
     //所有需要呼叫的function放在这里
     methods:{
+        test(){
+            let vm = this
+            console.log(vm.fake)
+        },
+        // 绘制色碼条
+        drawColorLine(){
+            let vm = this
+            // 利用 canvas 绘制色碼条。
+            let ctx = vm.$refs.color_line.getContext('2d')
+            // 设定色碼条颜色渐变范围
+            let gradient = ctx.createLinearGradient(28,10,150,30)
+            // 设定颜色插值点
+            // rgb(132,174,209)
+            gradient.addColorStop(0,'rgba(132,174,209,1)')
+            // rgba(147,210,197,1)
+            gradient.addColorStop(0.33,'rgba(147,210,197,1)')
+            // rgb(255,255,177)
+            gradient.addColorStop(0.66,'moccasin') 
+            // rgb(243,127,115)
+            gradient.addColorStop(1,'salmon') 
+            ctx.fillStyle = gradient
+            // 绘制矩形 参数是（x,y,width,height）
+            ctx.fillRect(28,10,150,20)
+
+            ctx.font = "12px serif"
+            ctx.fillText("Min", 0,25)
+            ctx.fillText("Max", 187,25)
+            // getImageData(x,y,width,height) => return rgba
+            let data = ctx.getImageData(28,10,150,30).data
+            for(let col=0; col<150; col++){
+                let r = data[((150 * 10) + col) * 4];
+                let g = data[((150 * 10) + col) * 4+1];
+                let b = data[((150 * 10) + col) * 4+2];
+                vm.color_stack.push("rgba("+r+","+g+","+b+",0.7)")                
+            }
+        },
         heatMap(){
             let vm = this
             let table = vm.$refs.table
+            let ctx = vm.$refs.color_line
+
             table.cell_heatMap(!vm.heat_map)
             vm.heat_map = !vm.heat_map
+
+            // if(vm.heat_map)
+            //     ctx.style.display = 'inline'
+            // else
+            //     ctx.style.display = 'none'
         },
         //呼叫后端,进行资料加载.载入资料后执行 this.onDataLoaded
         loadData(interval,sort='date',order='ASC',date_range=undefined){
@@ -205,7 +257,7 @@ export default{
             //把資料加入表格中
             vm.$refs.table.clearData()
             vm.$refs.table.setCols(vm.columns)
-            vm.$refs.table.setExtent(extent)
+            vm.$refs.table.setExtent(extent,vm.color_stack)
             
             vm.data = response.data.data
             vm.date_index = date_index
@@ -231,7 +283,7 @@ export default{
                 vm.page = 1
             }
             else{
-                vm.pageChange(vm.page)
+                vm.pageChange()
             }
         },
         //对资料进行预处理,处理成表格接收的内容
@@ -269,6 +321,7 @@ export default{
         //下一页
         nextPage(){
             let vm = this
+
             if( vm.page + 1 <= vm.total_page){
                 vm.page += 1
             }
@@ -302,7 +355,7 @@ export default{
             //获取当前资料在具体哪一页
             // vm.page = Math.ceil(index/50)
             vm.page = Math.ceil(index/33)
-            vm.pageChange(remainder)
+
         },
         //公式处理
         checkFormula(){
@@ -354,8 +407,10 @@ export default{
         EventBus.table = vm.$refs.table  
         EventBus.root = vm
 
+        vm.drawColorLine()
         vm.loadData(vm.interval)
         window.table = vm.$refs.table
+        window.vm = vm
         vm.$refs.home.addEventListener("contextmenu", e => {e.preventDefault()})
     },
     //离开时执行的内容
