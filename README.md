@@ -28,12 +28,7 @@ npm run serve
 ```
 
 ##　结果截图
-![](https://i.imgur.com/tYc7sAL.png)
-
-![](https://i.imgur.com/f3qxmy9.png)
-
-![](https://i.imgur.com/WDzNJNM.png)
-
-![](https://i.imgur.com/p2MMjBM.png)
-
-![](https://i.imgur.com/lBVDYu0.png)
+![](https://i.imgur.com/ZmcBPzL.png)
+![](https://i.imgur.com/QP2IhP7.png)
+![](https://i.imgur.com/Ja5MjqH.png)
+![](https://i.imgur.com/ZvfHlva.png)
